@@ -17,11 +17,18 @@ fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
           console.log(err);
           return;
         }
-        const fileName = path.parse(file.name).name;
-        const fileExt = path.parse(file.name).ext.slice(1);
+
+        let fileName = path.parse(file.name).name;
+        let fileExt = path.parse(file.name).ext.slice(1);
+
+        if (!fileExt && file.name.startsWith('.')) {
+          fileName = '';
+          fileExt = file.name.slice(1);
+        }
+
         const fileSizeKB = stats.size / 1024;
         console.log(`${fileName} - ${fileExt} - ${fileSizeKB}kb`);
-      })
+      });
     }
-  })
-})
+  });
+});
